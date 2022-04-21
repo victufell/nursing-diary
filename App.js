@@ -4,13 +4,14 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
 
 import Home from './src/screens/Home'
+import Login from './src/screens/Login'
 
 export default function App() {
 
   return (
     <SafeAreaView>
       <StatusBar />
-      <Home />
+      <Login />
     </SafeAreaView>
   );
 }
