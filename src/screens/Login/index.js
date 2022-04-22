@@ -13,21 +13,25 @@ const Login = () => {
             <View style={styles.contentView}>
                 <Text style={styles.headerTxt}> Diário de Enfermagem </Text>
 
-                <Text style={styles.inputLabel}> CPF </Text>
-                <TextInput style={styles.inputText}
-                    placeholder= "Digite seu Email"
-                    placeholderTextColor="#c4c2c2"
-                />
+                <View style={styles.inputView}>
+                    <Text style={styles.inputLabel}> CPF </Text>
+                    <TextInput style={styles.inputText}
+                        placeholder= "Digite seu CPF"
+                        placeholderTextColor="#c4c2c2"
+                        keyboardType='number-pad'
+                        maxLength={11}
+                    />
 
-                <Text style={styles.inputLabel}> Senha </Text>
-                <TextInput style={styles.inputText}
-                    placeholder= "Digite sua Senha"
-                    placeholderTextColor="#c4c2c2"
-                />
-
+                    <Text style={styles.inputLabel}> Senha </Text>
+                    <TextInput style={styles.inputText}
+                        placeholder= "Digite sua Senha"
+                        placeholderTextColor="#c4c2c2"
+                        secureTextEntry={true}
+                    />
+                </View>
+                
                 <View style ={styles.loginView}>
                     <Button 
-                        height='100'
                         color="#fffcfc"
                         title="Fazer Login"
                     />
@@ -61,9 +65,14 @@ const Login = () => {
         color: '#fffcfc'
       },
 
-      inputLabel:{
+      inputView:{
         width: '100%',
-        marginTop: 30,
+          marginTop: 50
+      },
+
+      inputLabel:{
+        marginTop: 15,
+        width: '100%',
         color: '#fffcfc'
       },
 
