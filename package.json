@@ -10,7 +10,9 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "@react-navigation/native-stack": "^6.6.1",
+    "@react-navigation/bottom-tabs": "^6.3.1",
+    "@react-navigation/native": "^6.0.10",
+    "@react-navigation/native-stack": "^6.6.2",
     "expo": "^44.0.0",
     "expo-calendar": "~10.1.0",
     "expo-status-bar": "~1.2.0",
