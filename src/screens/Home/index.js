@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 
 import { Agenda } from 'react-native-calendars';
 
@@ -9,6 +9,14 @@ import colors from '../../utils/colors'
 
 const Home = () => {
   const [currentDay, setCurrentDay] = useState({})
+  const [currentSchedule, setCurrentSchedule] = useState({})
+  
+  useEffect(() => {
+    console.log({
+      currentDay,
+      currentSchedule
+    })
+  }, [currentSchedule])
 
   return (
     <View style={{height: '100%'}}>
@@ -21,7 +29,7 @@ const Home = () => {
         onDayPress={setCurrentDay}
         renderItem={(item, firstItemInDay) => {
           return (
-            <View style={{justifyContent: 'center', paddingTop: 18}}>
+            <TouchableOpacity style={{justifyContent: 'center', paddingTop: 18}} onPress={() => setCurrentSchedule(item)}>
               <Text style={{ color: colors.blue, fontSize: 16, fontWeight: 'bold' }}>
                 Paciente: 
                 <Text style={{fontWeight: '500' }}>
@@ -46,7 +54,7 @@ const Home = () => {
                     {" "}{item.room}
                   </Text>
               </Text>
-            </View>
+            </TouchableOpacity>
           );
         }}
         theme={{
