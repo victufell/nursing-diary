@@ -5,17 +5,21 @@ import { StyleSheet } from 'react-native';
 
 import Home from './src/screens/Home'
 import Login from './src/screens/Login'
+import Patient from './src/screens/Patient'
 
-import { NavigationContainer } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+} from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 
 const Tab = createBottomTabNavigator();
 
-function HomeScreen() {
+function HomeScreen({ ...props }) {
   return (
-    <Home />
+    <Home {...props}/>
   );
 
 }
@@ -25,14 +29,25 @@ function LoginScreen() {
   );
 }
 
-export default function App() {
+function PatientScreen({ ...props }) {
+  return (
+    <Patient {...props}/>
+  );
+}
 
+export default function App() {
+  const navigationRef = useNavigationContainerRef()
   return (
     <React.Fragment>
       <SafeAreaProvider>
-        <NavigationContainer>
-          <Tab.Navigator>
-            <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+        <NavigationContainer ref={navigationRef}>
+          <Tab.Navigator initialRouteName="Home">
+            <Tab.Screen name="Home" options={{ headerShown: false }}>
+              {props => <HomeScreen {...props}/>}
+            </Tab.Screen>
+            <Tab.Screen name="Patient" options={{ headerShown: false }}>
+              {props => <PatientScreen {...props} />}
+            </Tab.Screen>
             <Tab.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
           </Tab.Navigator>
         </NavigationContainer> 

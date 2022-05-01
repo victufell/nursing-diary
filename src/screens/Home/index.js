@@ -1,25 +1,25 @@
 import React from 'react'
 
 import { useEffect, useState } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
-
 import { Agenda } from 'react-native-calendars';
+import { Text, View, TouchableOpacity } from 'react-native';
 
 import colors from '../../utils/colors'
 
-const Home = () => {
+const Home = ({ navigation }) => {
   const [currentDay, setCurrentDay] = useState({})
   const [currentSchedule, setCurrentSchedule] = useState({})
+
+  const handlePacient = (item) => {
+    setCurrentSchedule(item)
+    navigation.navigate('Patient', { data: item })
+  }
   
   useEffect(() => {
-    console.log({
-      currentDay,
-      currentSchedule
-    })
   }, [currentSchedule])
 
   return (
-    <View style={{height: '100%'}}>
+    <View style={{height: '100%', paddingTop: 80}}>
       <Agenda
         style={{}}
         items={{
@@ -29,7 +29,7 @@ const Home = () => {
         onDayPress={setCurrentDay}
         renderItem={(item, firstItemInDay) => {
           return (
-            <TouchableOpacity style={{justifyContent: 'center', paddingTop: 18}} onPress={() => setCurrentSchedule(item)}>
+            <TouchableOpacity style={{justifyContent: 'center', paddingTop: 18}} onPress={() => handlePacient(item)}>
               <Text style={{ color: colors.blue, fontSize: 16, fontWeight: 'bold' }}>
                 Paciente: 
                 <Text style={{fontWeight: '500' }}>
