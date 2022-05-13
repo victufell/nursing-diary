@@ -1,47 +1,73 @@
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet } from 'react-native';
+
+import Home from './src/screens/Home'
+import Login from './src/screens/Login'
+import Patient from './src/screens/Patient'
+import Register from './src/screens/Register'
+
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+} from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+const Tab = createBottomTabNavigator();
 
-import Home from './src/screens/Home';
-import Login from './src/screens/Login';
-import Register from './src/screens/Register';
+function HomeScreen({ ...props }) {
+  return (
+    <Home {...props}/>
+  );
 
-const Stack = createNativeStackNavigator();
-
-export default function App(){
-  return(
-    <NavigationContainer>
-      <Stack.Navigator>
-      <Stack.Screen 
-
-        name="Login" 
-        component={Login} 
-        options={{
-          title: 'Login',
-          headerStyle:{
-            backgroundColor: '#4287f5'
-          },
-
-          headerTintColor: '#fff',
-          headerShown: true,
-        }}
-        />
-
-        <Stack.Screen 
-        name="Home" 
-        component={Home} 
-       
-        />
-
-        
-      <Stack.Screen
-        name="Register"
-        component={Register}
-      />
-
-    
-      </Stack.Navigator>
-    </NavigationContainer>
-  )
 }
+function LoginScreen() {
+  return (
+    <Login />
+  );
+}
+
+function PatientScreen({ ...props }) {
+  return (
+    <Patient {...props}/>
+  );
+}
+function RegisterScreen() {
+  return (
+    <Register />
+  );
+}
+
+export default function App() {
+  const navigationRef = useNavigationContainerRef()
+  return (
+    <React.Fragment>
+      <SafeAreaProvider>
+        <NavigationContainer ref={navigationRef}>
+          <Tab.Navigator initialRouteName="Home">
+            <Tab.Screen name="Home" options={{ headerShown: false }}>
+              {props => <HomeScreen {...props}/>}
+            </Tab.Screen>
+            <Tab.Screen name="Patient" options={{ headerShown: false }}>
+              {props => <PatientScreen {...props} />}
+            </Tab.Screen>
+            <Tab.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+            <Tab.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
+          </Tab.Navigator>
+        </NavigationContainer> 
+      </SafeAreaProvider>
+    </React.Fragment>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
