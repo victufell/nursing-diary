@@ -7,6 +7,7 @@ import Home from './src/screens/Home'
 import Login from './src/screens/Login'
 import Patient from './src/screens/Patient'
 // import SearchPatient from './src/screens/SearchPatient'
+import Register from './src/screens/Register'
 
 import {
   NavigationContainer,
@@ -35,6 +36,11 @@ function PatientScreen({ ...props }) {
     <Patient {...props}/>
   );
 }
+function RegisterScreen() {
+  return (
+    <Register />
+  );
+}
 
 // function SearchPatientScreen({ ...props }) {
 //   return (
@@ -59,6 +65,7 @@ export default function App() {
               {props => <SearchPatientScreen {...props} />}
             </Tab.Screen> */}
             <Tab.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+            <Tab.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
           </Tab.Navigator>
         </NavigationContainer> 
       </SafeAreaProvider>
