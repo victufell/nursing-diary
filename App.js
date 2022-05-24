@@ -6,6 +6,7 @@ import { StyleSheet } from 'react-native';
 import Home from './src/screens/Home'
 import Login from './src/screens/Login'
 import Patient from './src/screens/Patient'
+// import SearchPatient from './src/screens/SearchPatient'
 
 import {
   NavigationContainer,
@@ -35,6 +36,12 @@ function PatientScreen({ ...props }) {
   );
 }
 
+// function SearchPatientScreen({ ...props }) {
+//   return (
+//     <SearchPatient {...props}/>
+//   );
+// }
+
 export default function App() {
   const navigationRef = useNavigationContainerRef()
   return (
@@ -48,6 +55,9 @@ export default function App() {
             <Tab.Screen name="Patient" options={{ headerShown: false }}>
               {props => <PatientScreen {...props} />}
             </Tab.Screen>
+            {/* <Tab.Screen name="SearchPatient" options={{ headerShown: false }}>
+              {props => <SearchPatientScreen {...props} />}
+            </Tab.Screen> */}
             <Tab.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
           </Tab.Navigator>
         </NavigationContainer> 

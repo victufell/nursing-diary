@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import moment from 'moment'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { 
   Text, 
@@ -31,7 +32,9 @@ function MyCheckbox({ isSelected, setSelection }) {
 
 const formatDate = (timestamp = Date.now()) => {
 
-  const date = new Date(timestamp);
+  const momentDate = moment(timestamp, 'DD-MM-YYYY');
+  const date = new Date(momentDate)
+  
   const currentDate = `${date.getDate()}`.padStart(2, '0')
   const currentMonth = `${date.getMonth() + 1}`.padStart(2, '0')
   const currentYear = date.getFullYear()
@@ -41,7 +44,7 @@ const formatDate = (timestamp = Date.now()) => {
   return `${currentDate}/${currentMonth}/${currentYear} - ${currentHour}:${currentMinutes}:${currentSeconds}`
 }
 
-const Patient = ({ route = {} }) => {
+const Patient = ({ navigation, route = {} }) => {
   const [isSelected, setSelection] = useState(false);
   const [notes, setNotes] = useState([{ note: 'Tomou remédio', key: 0 }, { note: 'Tomou banhou', key: 1 }]);
   const [annotation, setAnnotation] = useState('');
@@ -56,14 +59,19 @@ const Patient = ({ route = {} }) => {
   }
 
   const { data = {} } = route?.params || {}
-
   const {
-    hour,
-    name = 'Victor',
-    remedy = 'Dipirona',
-    room = 1,
-    description = 'Uma descrição top',
+    Nome,
+    Dia,
+    Observacoes,
+    Tarefas
   } = data
+
+  useEffect(() => {
+    // if (!name && !remedy && !hour) {
+    //   console.log('entrei')
+    //   navigation.navigate('Home')
+    // }
+  }, [])
 
   const checkedText = isSelected ? 'Sim' : 'Não'
   const defaultText = {
@@ -89,7 +97,9 @@ const Patient = ({ route = {} }) => {
       <ScrollView>
 
         <View style={{ paddingHorizontal: 24, paddingVertical: 80 }}>
-          <Text style={{ color: colors.blue, fontSize: 24, fontWeight: 'bold', marginBottom: 24, textDecorationColor: colors.blue, textDecorationLine: 'underline' }}>Paciente: {name}</Text>
+          <Text style={{ color: colors.blue, fontSize: 24, fontWeight: 'bold', marginBottom: 24, textDecorationColor: colors.blue, textDecorationLine: 'underline' }}>
+            Paciente: {Nome}
+          </Text>
 
           <View style={{ alignItems: 'center',  backgroundColor: colors.white, flexDirection: 'row', borderRadius: 8, paddingHorizontal: 24,paddingVertical: 12, ...shadow }}>
             <View >
@@ -97,17 +107,14 @@ const Patient = ({ route = {} }) => {
             </View>
             
             <View>
-              <Text style={defaultText}>Remédio: {" "} 
-                <Text style={secondaryText}>{remedy}</Text>
-              </Text>
               
               <Text style={defaultText}>Ás: {" "}
-                  <Text style={secondaryText}>{formatDate(hour)}</Text>
-                </Text>
-
-              <Text style={defaultText}>Sala: {" "}
-                <Text style={secondaryText}>{room}</Text>
+                <Text style={secondaryText}>{formatDate(Dia)}</Text>
               </Text>
+
+              {/* <Text style={defaultText}>Sala: {" "}
+                <Text style={secondaryText}>{room}</Text>
+              </Text> */}
             </View>
           </View>
 
@@ -116,7 +123,7 @@ const Patient = ({ route = {} }) => {
             
             <Text style={ [defaultText, { marginBottom: 4 }] }>Descrição:
             </Text>
-            <Text style={secondaryText}>{description}</Text>
+            <Text style={secondaryText}>{Observacoes}</Text>
             
             <Text style={ [defaultText, { marginBottom: 4, marginTop: 12 }] }>Concluído:</Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
