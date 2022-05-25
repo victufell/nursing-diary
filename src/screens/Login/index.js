@@ -7,6 +7,9 @@ import { borderBottomColor } from 'react-native/Libraries/Components/View/ReactN
 import { useNavigation } from '@react-navigation/native';
 import colors from '../../utils/colors';
 
+import auth from 'firebase/auth';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+
 export default function Login(){
     const navigation = useNavigation();
   
@@ -16,6 +19,17 @@ export default function Login(){
   
     function showRegister(){
         navigation.navigate('Register')
+    }
+
+    async function onGoogleButtonPress() {
+      // Get the users ID token
+      const { idToken } = await GoogleSignin.signIn();
+    
+      // Create a Google credential with the token
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    
+      // Sign-in the user with the credential
+      return auth().signInWithCredential(googleCredential);
     }
 
     const [CPF, setText] = useState('');
@@ -45,7 +59,8 @@ export default function Login(){
             
             <View style ={styles.loginView}>
                 <Button 
-                    onPress={ navegaHome }
+                    // onPress={ navegaHome }
+                    onPress={() => onGoogleButtonPress().then(() => console.log('Signed in with Google!'))}
                     color="#fffcfc"
                     title="Fazer Login"
                 />
