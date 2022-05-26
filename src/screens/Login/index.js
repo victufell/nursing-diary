@@ -1,17 +1,64 @@
-import { BottomTabBar } from '@react-navigation/bottom-tabs';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Text, Button, StyleSheet, View, TextInput } from 'react-native';
 
-import { useEffect, useState } from 'react';
-import { Text, Button, StyleSheet, View, TextInput, Keyboard, Icon } from 'react-native';
-import { borderBottomColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import { useNavigation } from '@react-navigation/native';
-import colors from '../../utils/colors';
 
-import auth from 'firebase/auth';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import * as WebBrowser from 'expo-web-browser'
+import * as AuthSession from 'expo-auth-session'
+
+import {
+  getAuth,
+  signInWithCredential,
+  updateEmail,
+  updateProfile,
+  GoogleAuthProvider,
+} from '@firebase/auth'
+
+// import { GoogleSignin } from '@react-native-google-signin/google-signin';
+WebBrowser.maybeCompleteAuthSession()
 
 export default function Login(){
     const navigation = useNavigation();
+    const [user, setUser] = useState(null)
+
+    useEffect(() => {
+      console.log({
+        getAuth,
+        signInWithCredential,
+        updateEmail,
+        updateProfile,
+        GoogleAuthProvider})
+    }, [])
+
+    const onLogin = async () => {
+      try {
+        const CLIENT_ID = ``
+        const REDIRECT_URI = AuthSession.getRedirectUrl({ useProxy: true })
+  
+        const RESPONSE_TYPE = `token`
+        const SCOPE = encodeURI(`openid email profile`)
+  
+        const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`
+  
+        const { params, type } = (await AuthSession.startAsync({
+          authUrl,
+        }))
+  
+        if (type === 'success') {
+          const auth = getAuth()
+  
+          const credential = GoogleAuthProvider.credential(
+            null,
+            params.access_token,
+          )
+          const { user } = await signInWithCredential(auth, credential)
+  
+          setUser(user)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
   
     function navegaHome(){
       navigation.navigate('Home')
@@ -23,13 +70,13 @@ export default function Login(){
 
     async function onGoogleButtonPress() {
       // Get the users ID token
-      const { idToken } = await GoogleSignin.signIn();
+      // const { idToken } = await GoogleSignin.signIn();
     
       // Create a Google credential with the token
-      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+      // const googleCredential = auth.GoogleAuthProvider.credential(idToken);
     
       // Sign-in the user with the credential
-      return auth().signInWithCredential(googleCredential);
+      // return auth().signInWithCredential(googleCredential);
     }
 
     const [CPF, setText] = useState('');
