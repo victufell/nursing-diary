@@ -9,6 +9,8 @@ import Patient from './src/screens/Patient'
 // import SearchPatient from './src/screens/SearchPatient'
 import Register from './src/screens/Register'
 
+import { initializeApp } from 'firebase/app';
+
 import {
   NavigationContainer,
   useNavigationContainerRef,
@@ -18,6 +20,16 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 
 const Tab = createBottomTabNavigator();
+const firebaseConfig = {  
+  apiKey: "AIzaSyCIEA0yLnuOAHBnHk2FI8JZGdK_hlCUMus",  
+  authDomain: "diario-de-enfermagem.firebaseapp.com",  
+  databaseURL: "https://diario-de-enfermagem-default-rtdb.firebaseio.com",  
+  projectId: "diario-de-enfermagem",  
+  storageBucket: "diario-de-enfermagem.appspot.com",  
+  messagingSenderId: "403978519638",  
+  appId: "1:403978519638:web:74061fb2b0ba8505c4e7f7",  
+  measurementId: "G-6039W02RC2"  
+};  
 
 function HomeScreen({ ...props }) {
   return (
@@ -49,6 +61,8 @@ function RegisterScreen() {
 // }
 
 export default function App() {
+  initializeApp(firebaseConfig);
+  
   const navigationRef = useNavigationContainerRef()
   return (
     <React.Fragment>
