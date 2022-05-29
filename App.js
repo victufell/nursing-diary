@@ -6,8 +6,8 @@ import { StyleSheet } from 'react-native';
 import Home from './src/screens/Home'
 import Login from './src/screens/Login'
 import Patient from './src/screens/Patient'
-// import SearchPatient from './src/screens/SearchPatient'
-import Register from './src/screens/Register'
+import SearchPatient from './src/screens/SearchPatient'
+// import Register from './src/screens/Register'
 
 import { initializeApp } from 'firebase/app';
 
@@ -48,17 +48,17 @@ function PatientScreen({ ...props }) {
     <Patient {...props}/>
   );
 }
-function RegisterScreen() {
-  return (
-    <Register />
-  );
-}
-
-// function SearchPatientScreen({ ...props }) {
+// function RegisterScreen() {
 //   return (
-//     <SearchPatient {...props}/>
+//     <Register />
 //   );
 // }
+
+function SearchPatientScreen({ ...props }) {
+  return (
+    <SearchPatient {...props}/>
+  );
+}
 
 export default function App() {
   initializeApp(firebaseConfig);
@@ -75,11 +75,11 @@ export default function App() {
             <Tab.Screen name="Patient" options={{ headerShown: false }}>
               {props => <PatientScreen {...props} />}
             </Tab.Screen>
-            {/* <Tab.Screen name="SearchPatient" options={{ headerShown: false }}>
+            <Tab.Screen name="SearchPatient" options={{ headerShown: false }}>
               {props => <SearchPatientScreen {...props} />}
-            </Tab.Screen> */}
+            </Tab.Screen>
             <Tab.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-            <Tab.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
+            {/* <Tab.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} /> */}
           </Tab.Navigator>
         </NavigationContainer> 
       </SafeAreaProvider>

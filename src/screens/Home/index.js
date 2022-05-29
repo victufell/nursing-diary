@@ -16,6 +16,7 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     services.getSchedule()
       .then(({ data = {} }) => {
+        console.log('data', data)
         
         const dataFormatted = Object.values(data)
           .reduce((acc, schedule = {}) => {
