@@ -67,10 +67,6 @@ export default function Login(){
     function navegaHome(){
       navigation.navigate('Home')
     }
-  
-    function showRegister(){
-        navigation.navigate('Register')
-    }
 
     async function onGoogleButtonPress() {
       onLogin()
