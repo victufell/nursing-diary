@@ -32,19 +32,22 @@ export default function Login(){
 
     const onLogin = async () => {
       try {
-        const CLIENT_ID = ``
-        const REDIRECT_URI = AuthSession.getRedirectUrl({ useProxy: true })
+        const CLIENT_ID = '403978519638-3gluoqck7lg834j4drns8vuapvg445l5.apps.googleusercontent.com'
+        const REDIRECT_URI =  'https://auth.expo.io/@brenolc/nursing-diary'
   
         const RESPONSE_TYPE = `token`
         const SCOPE = encodeURI(`openid email profile`)
   
         const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`
   
+        // const response = await AuthSession.startAsync({ authUrl });
+        // console.log(response);
         const { params, type } = (await AuthSession.startAsync({
           authUrl,
         }))
   
         if (type === 'success') {
+          console.log('success')
           const auth = getAuth()
   
           const credential = GoogleAuthProvider.credential(
@@ -54,9 +57,10 @@ export default function Login(){
           const { user } = await signInWithCredential(auth, credential)
   
           setUser(user)
+          navegaHome()
         }
       } catch (error) {
-        console.log(error)
+        console.log('error:' + error)
       }
     }
   
@@ -69,6 +73,7 @@ export default function Login(){
     }
 
     async function onGoogleButtonPress() {
+      onLogin()
       // Get the users ID token
       // const { idToken } = await GoogleSignin.signIn();
     
