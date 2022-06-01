@@ -1,7 +1,6 @@
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, StatusBar } from 'react-native';
 
 import Home from './src/screens/Home'
 import Login from './src/screens/Login'
@@ -11,6 +10,8 @@ import SearchPatient from './src/screens/SearchPatient'
 
 import { initializeApp } from 'firebase/app';
 
+import { FontAwesome, Fontisto, MaterialIcons } from '@expo/vector-icons'; 
+
 import {
   NavigationContainer,
   useNavigationContainerRef,
@@ -18,6 +19,7 @@ import {
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
+import colors from './src/utils/colors';
 
 const Tab = createBottomTabNavigator();
 const firebaseConfig = {  
@@ -67,18 +69,20 @@ export default function App() {
   return (
     <React.Fragment>
       <SafeAreaProvider>
+        <StatusBar barStyle="dark-content" />
+ 
         <NavigationContainer ref={navigationRef}>
-          <Tab.Navigator initialRouteName="Home">
-            <Tab.Screen name="Home" options={{ headerShown: false }}>
-              {props => <HomeScreen {...props}/>}
+          <Tab.Navigator initialRouteName="Home" screenOptions={() => ({ tabBarActiveTintColor: colors.blue })}>
+            <Tab.Screen name="Home" options={{ headerShown: false, tabBarShowLabel: false, tabBarIcon: ({ color }) => (<FontAwesome name="calendar-plus-o" size={24} color={color} />)}}>
+              {props => <HomeScreen {...props} />}
             </Tab.Screen>
-            <Tab.Screen name="Patient" options={{ headerShown: false }}>
+            <Tab.Screen name="Patient" options={{ headerShown: false, tabBarShowLabel: false, tabBarIcon: ({ color }) => (<Fontisto name="bed-patient" size={24} color={color} />) }}>
               {props => <PatientScreen {...props} />}
             </Tab.Screen>
-            <Tab.Screen name="SearchPatient" options={{ headerShown: false }}>
+            <Tab.Screen name="SearchPatient" options={{ headerShown: false, tabBarShowLabel: false, tabBarIcon: ({ color }) => (<MaterialIcons name="person-search" size={24} color={color} />) }}>
               {props => <SearchPatientScreen {...props} />}
             </Tab.Screen>
-            <Tab.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+            <Tab.Screen name="Login" component={LoginScreen} options={{ headerShown: false, tabBarShowLabel: false, tabBarIcon: ({ color }) => (<FontAwesome name="user-md" size={24} color={color} />) }} />
             {/* <Tab.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} /> */}
           </Tab.Navigator>
         </NavigationContainer> 

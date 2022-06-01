@@ -8,6 +8,30 @@ import services from '../../services';
 
 import colors from '../../utils/colors'
 
+import Header from '../../components/Header'
+
+const BlockItemText = ({text}) => (
+  <Text style={{fontWeight: '500' }}>
+    {" "}{text},
+  </Text>
+)
+
+const Block = ({ label, value, list = [], condition = true }) => {
+  const hastList = list.length > 0
+  return (
+    condition && <Text style={{ color: colors.gray, fontSize: 16, fontWeight: 'bold' }}>
+      {label} 
+      {hastList
+        ? list.map((item) => (
+          <BlockItemText text={item}/>
+        ))
+        : <BlockItemText text={value} />
+      
+      }
+    </Text>
+  )
+}
+
 const Home = ({ navigation }) => {
   const [currentDay, setCurrentDay] = useState({})
   const [scheduleAPI, setScheduleAPI] = useState(null)
@@ -40,7 +64,8 @@ const Home = ({ navigation }) => {
   }
 
   return (
-    <View style={{height: '100%', paddingTop: 80}}>
+    <View style={{height: '100%', backgroundColor: colors.blue }}>
+      <Header />
     {!!scheduleAPI && <Agenda
       style={{}}
       items={scheduleAPI}
@@ -49,36 +74,10 @@ const Home = ({ navigation }) => {
       renderItem={(item, firstItemInDay) => {
         return (
           <TouchableOpacity style={{justifyContent: 'center', paddingTop: 18}} onPress={() => handlePacient(item)}>
-            <Text style={{ color: colors.blue, fontSize: 16, fontWeight: 'bold' }}>
-              Paciente: 
-              <Text style={{fontWeight: '500' }}>
-                {" "}{item.Nome}
-              </Text>
-            </Text>
-            <Text style={{ color: colors.blue, fontSize: 16, fontWeight: 'bold' }}>
-              Descrição: 
-              <Text style={{fontWeight: '500' }}>
-                {" "}{item.Observacoes}
-              </Text>
-            </Text>
-            {item.Tarefas && <Text style={{ color: colors.blue, fontSize: 16, fontWeight: 'bold' }}>
-              Ação: 
-              {Object.values(item.Tarefas)
-                .map((task) => {
-                  return (
-                    <Text style={{fontWeight: '500' }}>
-                      {" "}{task},
-                    </Text>
-                  )
-                })
-              }
-            </Text>}
-            {item.Sala && <Text style={{ color: colors.blue, fontSize: 16, fontWeight: 'bold' }}>
-              Sala: 
-                <Text style={{fontWeight: '500' }}>
-                  {" "}{item.Sala}
-                </Text>
-            </Text>}
+            <Block label="Paciente:" value={item.Nome} />
+            <Block label="Descrição:" value={item.Observacoes} />
+            <Block label="Ação:" value={item.Observacoes} list={Object.values(item.Tarefas)} condition={item.Tarefas}/>
+            <Block label="Sala:" value={item.Sala} condition={item.Sala}/>
           </TouchableOpacity>
         );
       }}
