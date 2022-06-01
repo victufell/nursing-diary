@@ -69,10 +69,8 @@ function MyCheckbox({ isSelected, setSelection }) {
 }
 
 const InfoComp = ({ data = {}, checkedText, isSelected, setSelection, handleToggleModal }) => {
-  console.log('data.Tarefas', data.Tarefas)
 
   const tasks = data.Tarefas ? Object.values(data.Tarefas).map((item, index) => ({ id: `${item}-${index}`, title: item })) : []
-  console.log('tasks', tasks)
   return (
     <Fragment>
       <View style={{backgroundColor: colors.green, paddingTop: 80, paddingBottom: 40, paddingLeft: 24}}>
@@ -110,9 +108,9 @@ const InfoComp = ({ data = {}, checkedText, isSelected, setSelection, handleTogg
           <Text style={secondaryText}>{data.Observacoes}</Text>
         </View>
 
-        <View style={{ marginTop: 24, backgroundColor: colors.blue, minHeight: 180, paddingVertical: 12, borderRadius: 8 }}>
+        <View style={{ marginTop: 24, backgroundColor: colors.blue, paddingVertical: 12, borderRadius: 8, paddingBottom: 24, backgroundColor: 'black', marginBottom: 24 }}>
           <View style={{flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ marginBottom: 24, color: colors.red, fontSize: 24, fontWeight: 'bold', backgroundColor: 'black', width: '100%', paddingLeft: 24, borderRadius: 8, paddingVertical: 4 }}>
+            <Text style={{ color: colors.red, fontSize: 24, fontWeight: 'bold', backgroundColor: 'black', width: '100%', paddingLeft: 24, borderRadius: 8, paddingBottom: 24, paddingTop: 12 }}>
               Tarefas {" "}
 
               <Octicons name="tasklist" size={24} color={colors.red} />
@@ -121,8 +119,8 @@ const InfoComp = ({ data = {}, checkedText, isSelected, setSelection, handleTogg
 
           {tasks.map((task, index) => {
             return (
-              <View key={task.id} style={{ marginBottom: 8, flexDirection: 'row', backgroundColor: colors.green }}>
-                <Text style={{ textDecorationLine: 'underline', width: 'auto', fontSize: 18, fontWeight: 'bold', color: 'black', paddingLeft: 24 }}>{index+1}. {task.title} {" "}</Text>
+              <View key={task.id} style={{ flexDirection: 'row', backgroundColor: 'black' }}>
+                <Text style={{ textDecorationLine: 'underline', width: 'auto', fontSize: 18, fontWeight: 'bold', color: colors.red, paddingHorizontal: 24, paddingVertical: 4 }}>{index+1}. {task.title} {" "}</Text>
                 <MaterialCommunityIcons name="bell-alert" size={24} color={colors.red} />
               </View>
             )
@@ -143,9 +141,19 @@ const InfoComp = ({ data = {}, checkedText, isSelected, setSelection, handleTogg
         </View>
 
       </View>
+
+      <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', width: '100%', backgroundColor: colors.blue }}>
+        <Header style={{ backgroundColor: colors.blue, paddingTop: 40 }}/>
+      </View>
     </Fragment>
   )
 }
+
+// const AnnotationComp = () => {
+//   return (
+
+//   )
+// }
 
 const ActionIcon = ({ onPress = () => null, children }) => {
   return (
