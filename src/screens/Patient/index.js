@@ -143,17 +143,68 @@ const InfoComp = ({ data = {}, checkedText, isSelected, setSelection, handleTogg
       </View>
 
       <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', width: '100%', backgroundColor: colors.blue }}>
-        <Header style={{ backgroundColor: colors.blue, paddingTop: 40 }}/>
+        <Header style={{ backgroundColor: colors.blue, paddingTop: 14 }}/>
       </View>
     </Fragment>
   )
 }
 
-// const AnnotationComp = () => {
-//   return (
+const AnnotationComp = ({ notes, annotation, setAnnotation, handleDeleteNote, handleSendAnnotation, handleToggleModal }) => {
+  return (
+    <Fragment>
+      <View style={{backgroundColor: colors.green, paddingTop: 80, paddingBottom: 40, paddingLeft: 24}}>
+        <Ionicons name="arrow-back-outline" size={24} color={colors.white} onPress={handleToggleModal}/>
+      </View>
+      <ScrollView style={{ backgroundColor: colors.white, paddingHorizontal: 24 }}>
+        <Text style={{ color: colors.blue, marginTop: 24, fontSize: 24, fontWeight: 'bold', marginBottom: 24 }}>
+          Anotações
+        </Text>
 
-//   )
-// }
+        <TextInput
+          style={{
+            height: 120,
+            borderRadius: 4,
+            borderWidth: 0,
+            borderColor: colors.white,
+            backgroundColor: colors.black,
+            color: colors.white,
+            padding: 12,
+            marginBottom: 12,
+            fontSize: 18,
+            textAlignVertical: 'top'
+          }}
+          multiline
+          numberOfLines={6}
+          onChangeText={setAnnotation}
+          value={annotation}
+        />
+        <Button
+          color={colors.blue}
+          title="Enviar anotação"
+          onPress={handleSendAnnotation}
+          accessibilityLabel="Enviar anotação"
+        />
+
+        <Text style={{ color: colors.blue, marginTop: 24, fontSize: 24, fontWeight: 'bold', marginBottom: 24 }}>Histórico de anotações</Text>
+          {notes.map(({ note, key }) => {
+            return (
+              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 12, paddingHorizontal: 24, marginBottom: 8, backgroundColor: colors.white, borderRadius: 4}} key={key}>
+                <Text style={[secondaryText, { textDecorationLine: 'underline', width: '90%' }]}>
+                  {note}
+                </Text>
+                <Ionicons name="trash" size={24} color={colors.red} onPress={() => handleDeleteNote(key)}/>
+              </View>
+
+            )
+          })}
+
+      </ScrollView>
+      <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', width: '100%', backgroundColor: colors.blue }}>
+        <Header style={{ backgroundColor: colors.blue, paddingTop: 40 }}/>
+      </View>
+    </Fragment>
+  )
+}
 
 const ActionIcon = ({ onPress = () => null, children }) => {
   return (
@@ -172,7 +223,7 @@ const Patient = ({ navigation, route = {} }) => {
 
   const modalDataComponents = {
     'info': InfoComp,
-    'annotation': {},
+    'annotation': AnnotationComp,
   }
 
   const ModalComponent = modalDataComponents[action]
@@ -240,10 +291,16 @@ const Patient = ({ navigation, route = {} }) => {
               >
                 <ModalComponent 
                   data={data}
+                  notes={notes}
+                  annotation={annotation}
+                  setAnnotation={setAnnotation}
+                  setNotes={setNotes}
                   isSelected={isSelected}
                   checkedText={checkedText}
                   setSelection={setSelection}
+                  handleDeleteNote={handleDeleteNote}
                   handleToggleModal={handleToggleModal}
+                  handleSendAnnotation={handleSendAnnotation}
                 />
               </Modal>
 
