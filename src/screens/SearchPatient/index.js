@@ -14,6 +14,8 @@ import {
 
 import services from '../../services';
 
+import Header from '../../components/Header'
+
 const SearchPatient = () => {
   const [isDisabled, setIsDisabled] = useState(false)
   const [open, setOpen] = useState(false);
@@ -71,23 +73,34 @@ const SearchPatient = () => {
       .finally(() => setIsDisabled(false))
   }
   return (
-      <View style={{paddingTop: 80}}>
-        <DropDownPicker
-          open={open}
-          value={value}
-          items={items}
-          setOpen={setOpen}
-          setValue={setValue}
-          setItems={setItems}
-        />
-        <Button
-          disabled={isDisabled}
-          color={colors.blue}
-          title="Enviar paciente"
-          onPress={handleNewScheduleItem}
-          accessibilityLabel="Enviar paciente"
-        />
-      </View>
+      <SafeAreaProvider>
+        <Header />
+        <View style={{ marginTop: 24, marginBottom: 24, paddingHorizontal: 24 }}>
+          <DropDownPicker
+            open={open}
+            value={value}
+            items={items}
+            setOpen={setOpen}
+            setValue={setValue}
+            setItems={setItems}
+            searchable={true}
+            placeholder="Selecione"
+            style={{marginBottom: 'auto'}}
+          />
+        </View>
+        
+        <View style={{ marginTop: 240, paddingHorizontal: 24 }}>
+          <View style={{ backgroundColor: colors.green, borderRadius: 8, paddingVertical: 12 }}>
+            <Button
+              disabled={isDisabled}
+              color={colors.white}
+              title="Enviar paciente"
+              onPress={handleNewScheduleItem}
+              accessibilityLabel="Enviar paciente"
+            />
+          </View>
+        </View>
+      </SafeAreaProvider>
   )
 }
 

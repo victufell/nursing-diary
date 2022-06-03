@@ -72,11 +72,12 @@ const Home = ({ navigation }) => {
       // items={{}}
       onDayPress={setCurrentDay}
       renderItem={(item, firstItemInDay) => {
+        const tasks = item.Tarefas ? Object.values(item.Tarefas) : []
         return (
           <TouchableOpacity style={{justifyContent: 'center', paddingTop: 18}} onPress={() => handlePacient(item)}>
             <Block label="Paciente:" value={item.Nome} />
             <Block label="Descrição:" value={item.Observacoes} />
-            <Block label="Ação:" value={item.Observacoes} list={Object.values(item.Tarefas)} condition={item.Tarefas}/>
+            <Block label="Ação:" value={item.Observacoes} list={tasks} condition={item.Tarefas}/>
             <Block label="Sala:" value={item.Sala} condition={item.Sala}/>
           </TouchableOpacity>
         );
