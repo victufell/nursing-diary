@@ -13,6 +13,7 @@ import {
   updateProfile,
   GoogleAuthProvider,
 } from '@firebase/auth'
+import colors from '../../utils/colors';
 
 // import { GoogleSignin } from '@react-native-google-signin/google-signin';
 WebBrowser.maybeCompleteAuthSession()
@@ -75,26 +76,31 @@ export default function Login(){
     }
 
     const [CPF, setText] = useState('');
-
+    console.log(setUser.name)
+    
     if (isLogged) {
-        console.log('Logado')
         return(<View style={styles.container}>
           <View style={styles.contentView}>
             <Image
-              style={styles.tinyLogo}
+              style={styles.userLogo}
+              source={{
+                uri: 'https://st.depositphotos.com/1224365/2498/i/450/depositphotos_24980235-stock-photo-portrait-of-a-normal-man.jpg',
+              }}
             />
-              <View>
-              <Button
+
+            <Text style={styles.usernameText}>
+                  {user.name}
+            </Text>
+               
+              <TouchableOpacity
+                style={styles.logoutButton}
                 onPress={logout}
-                title="Sair do app"
-                color="white"
-                accessibilityLabel="Sair do aplicativo"
-              />
-              </View>
+                underlayColor='#fff'>
+                 <Text style={styles.logoutText}>Sair</Text>
+              </TouchableOpacity>
           </View>
       </View>)
     } else {
-      console.log('DesLogado')
       return(
         <SafeAreaView style={styles.container}>
           <View style={styles.contentView}>
@@ -119,16 +125,15 @@ export default function Login(){
     container:{
       flex: 1,
       alignItems: 'center',
-      backgroundColor: '#4287f5'
+      backgroundColor: colors.blue
     },
 
       contentView:{
         flex: 1,
         width: '90%',
         alignItems: "center",
-        justifyContent: "center",
-        marginTop: 40
-      },
+        justifyContent: "center"
+            },
 
       loginButton: {
         marginTop: 15,
@@ -146,6 +151,13 @@ export default function Login(){
         height: 50,
       },
 
+      userLogo: {
+        width: 200,
+        height: 200,
+        borderRadius: 200 / 2,
+        marginTop: 10
+      },
+
       buttonText: {
         fontFamily: 'Arial',
          fontSize: 20,
@@ -160,15 +172,37 @@ export default function Login(){
         textAlign: 'center',
         fontWeight: 'bold',
       },
+
+      usernameText: {
+        fontFamily: 'Arial',
+        fontSize: 20,
+        color: 'white',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        marginTop: 15
+      },
+
+      logoutText: {
+        fontFamily: 'Arial',
+         fontSize: 20,
+         textAlign: 'center',
+         color: colors.white
+      },
       
       logoutButton: {
-        alignItems: 'center',
-        textAlign: 'center',
-        alignContent: 'center',
-        backgroundColor: 'white',
-        borderRadius: 100/2,
+        backgroundColor:'transparent',
+        borderRadius:10,
+        borderWidth: 1,
+        borderColor: '#fff',
         width: 200,
-        height: 70,
-        textAlignVertical: 'center'
-      },
+        height: 50,
+        textAlign: 'center', 
+        fontWeight: 'bold',
+        fontSize: 18,
+        justifyContent: 'center',
+        alignContent:'center',
+        alignSelf: 'center',
+        position: 'absolute',
+        bottom: 15
+     },
   });
