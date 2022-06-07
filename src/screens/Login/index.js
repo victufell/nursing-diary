@@ -18,26 +18,20 @@ import colors from '../../utils/colors';
 // import { GoogleSignin } from '@react-native-google-signin/google-signin';
 WebBrowser.maybeCompleteAuthSession()
 
-var isLogged = false;
-
 export default function Login(){
     const navigation = useNavigation();
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState({})
+    const [isLogged, setIsLogged] = useState(false)
     const [refreshing, setRefreshing] = React.useState(false);
 
     useEffect(() => {
-      console.log({
-        getAuth,
-        signInWithCredential,
-        updateEmail,
-        updateProfile,
-        GoogleAuthProvider})
+      setIsLogged(false)
     }, [])
 
     const onLogin = async () => {
       try {
         const CLIENT_ID = '403978519638-3gluoqck7lg834j4drns8vuapvg445l5.apps.googleusercontent.com'
-        const REDIRECT_URI =  'https://auth.expo.io/@brenolc/nursing-diary'
+        const REDIRECT_URI =  'https://auth.expo.io/@victorfell/nursing-diary'
   
         const RESPONSE_TYPE = `token`
         const SCOPE = encodeURI(`openid email profile`)
@@ -56,9 +50,16 @@ export default function Login(){
             params.access_token,
           )
           const { user } = await signInWithCredential(auth, credential)
-          isLogged = true;
-          setUser(user) 
-          setRefreshing(true);
+          if (user.apiKey && user.displayName) {
+            setIsLogged(true)
+            setUser(user) 
+            setRefreshing(true);
+          } else {
+            setIsLogged(false)
+            setUser(false) 
+            setRefreshing(false);
+          }
+
         }
       } catch (error) {
         console.log('error:' + error)
@@ -66,8 +67,8 @@ export default function Login(){
     }
 
     function logout() {
-      isLogged = false
-      setUser(null)
+      isLogged(false)
+      setUser({})
       setRefreshing(true);
     }
   
@@ -76,7 +77,6 @@ export default function Login(){
     }
 
     const [CPF, setText] = useState('');
-    console.log(setUser.name)
     
     if (isLogged) {
         return(<View style={styles.container}>
@@ -84,12 +84,12 @@ export default function Login(){
             <Image
               style={styles.userLogo}
               source={{
-                uri: 'https://st.depositphotos.com/1224365/2498/i/450/depositphotos_24980235-stock-photo-portrait-of-a-normal-man.jpg',
+                uri: user.photoURL,
               }}
             />
 
             <Text style={styles.usernameText}>
-                  {user.name}
+                  {user.displayName}
             </Text>
                
               <TouchableOpacity

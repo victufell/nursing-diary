@@ -51,8 +51,6 @@ const Home = ({ navigation }) => {
               : (acc = { ...acc, [date]: [schedule] })
           }, {})
 
-          console.log('dataFormatted', dataFormatted)
-
         setScheduleAPI(dataFormatted)
       })
   }, [])
