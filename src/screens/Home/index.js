@@ -40,19 +40,18 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     services.getSchedule()
       .then(({ data = {} }) => {
-        console.log('data', data)
         
         const dataFormatted = Object.values(data)
           .reduce((acc, schedule = {}) => {
             const isoDate = moment(schedule.Dia, 'DD-MM-YYYY').toISOString();
             const date = isoDate.split('T')[0]
-            return {
-              ...acc,
-              [date]: [{
-                ...schedule
-              }]
-            }
+
+            return !!acc[date]
+              ? (acc = { ...acc, [date]: [...acc[date], schedule] })
+              : (acc = { ...acc, [date]: [schedule] })
           }, {})
+
+          console.log('dataFormatted', dataFormatted)
 
         setScheduleAPI(dataFormatted)
       })

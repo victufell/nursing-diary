@@ -20,7 +20,7 @@ import colors from '../../utils/colors'
 
 import Header from '../../components/Header'
 
-const formatDate = (timestamp = Date.now()) => {
+const formatDate = (timestamp = Date.now(), { Hora, Minutos, Segundos }) => {
 
   const momentDate = moment(timestamp, 'DD-MM-YYYY');
   const date = new Date(momentDate)
@@ -28,10 +28,10 @@ const formatDate = (timestamp = Date.now()) => {
   const currentDate = `${date.getDate()}`.padStart(2, '0')
   const currentMonth = `${date.getMonth() + 1}`.padStart(2, '0')
   const currentYear = date.getFullYear()
-  const currentHour = `${date.getHours()}`.padStart(2, '0')
-  const currentMinutes = `${date.getMinutes()}`.padStart(2, '0')
-  const currentSeconds = `${date.getSeconds()}`.padStart(2, '0')
-  return `${currentDate}/${currentMonth}/${currentYear} - ${currentHour}:${currentMinutes}:${currentSeconds}`
+  const currentHour = `${Hora}`.padStart(2, '0')
+  const currentMinutes = `${Minutos}`.padStart(2, '0')
+  const currentSeconds = `${Segundos}`.padStart(2, '0')
+  return `${currentDate}/${currentMonth}/${currentYear} - ${currentHour}:${currentMinutes}:${currentSeconds} - `
 }
 
 const defaultText = {
@@ -89,7 +89,7 @@ const InfoComp = ({ data = {}, checkedText, isSelected, setSelection, handleTogg
           
           <View style={{ marginLeft: 12, marginRight: 'auto' }}>
             <Text style={defaultText}>
-              <Text style={secondaryText}>{formatDate(data.Dia)}</Text>
+              <Text style={secondaryText}>{formatDate(data.Dia, { ...data })}</Text>
             </Text>
           </View>
 
@@ -252,7 +252,10 @@ const Patient = ({ navigation, route = {} }) => {
     Dia,
     Sala,
     Observacoes,
-    Tarefas
+    Tarefas,
+    Hora = '', 
+    Minutos = '', 
+    Segundos = ''
   } = data
 
   const isEmptyData = Object.keys(data).length === 0
@@ -312,7 +315,7 @@ const Patient = ({ navigation, route = {} }) => {
                   
                   <View style={{ marginLeft: 12, marginRight: 'auto' }}>
                     <Text style={defaultText}>
-                      <Text style={secondaryText}>{formatDate(Dia)}</Text>
+                      <Text style={secondaryText}>{formatDate(Dia, { Hora, Minutos, Segundos })}</Text>
                     </Text>
                   </View>
                   <View>

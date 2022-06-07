@@ -62,8 +62,7 @@ const SearchPatient = () => {
         "CPF": "20316078042", 
         "Nome": "Victor Fellype", 
         "Observacoes": "", 
-        
-        "Sala":"102"
+        "Sala":"103"
       },
   ]);
 
@@ -82,16 +81,20 @@ const SearchPatient = () => {
       ...itemSelected,
       ...inputData,
       "TimeStamp": date.getTime(), 
-      "Dia": formattedDate, 
+      "Dia": formattedDate,
+      "Hora": date.getHours(),
+      "Minutos": date.getMinutes(),
+      "Segundos": date.getSeconds()
     }
 
     return services.postScheduleItem({ data })
       .finally(() => setIsDisabled(false))
   }
+
   return (
       <SafeAreaProvider>
         <Header />
-        <View style={{ marginTop: 24, marginBottom: 24, paddingHorizontal: 24 }}>
+        <View style={{ marginTop: 24, marginBottom: 92, paddingHorizontal: 24 }}>
           <Text style={{marginBottom: 4}}>Pacientes</Text>
           <DropDownPicker
             open={open}
@@ -100,12 +103,11 @@ const SearchPatient = () => {
             setOpen={setOpen}
             setValue={setValue}
             setItems={setItems}
-            placeholder="Selecione"
             style={{marginBottom: 'auto'}}
           />
         </View>
 
-          <View style={{ paddingHorizontal: 24, paddingTop: 72 }}>
+          <View style={{ paddingHorizontal: 24 }}>
             <Text>Sala</Text>
             <TextInput
               style={defaultInputStyle}
