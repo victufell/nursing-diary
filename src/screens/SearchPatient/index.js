@@ -9,7 +9,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
   Text,
   View,
-  Button
+  Button,
+  TextInput
 } from 'react-native';
 
 import services from '../../services';
@@ -20,6 +21,21 @@ const SearchPatient = () => {
   const [isDisabled, setIsDisabled] = useState(false)
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
+  const [inputData, setInputData] = useState({
+    Sala: '',
+    Observacoes: '',
+  });
+
+  const defaultInputStyle = {
+    height: 40,
+    marginBottom: 12,
+    marginTop: 4,
+    borderWidth: 1,
+    padding: 10,
+    color: colors.black,
+    borderRadius: 4
+  }
+
   const [items, setItems] = useState([
       { 
         "label": "Carlos Silva dos Santos",
@@ -46,8 +62,7 @@ const SearchPatient = () => {
         "CPF": "20316078042", 
         "Nome": "Victor Fellype", 
         "Observacoes": "", 
-        
-        "Sala":"102"
+        "Sala":"103"
       },
   ]);
 
@@ -64,18 +79,23 @@ const SearchPatient = () => {
     
     const data = {
       ...itemSelected,
+      ...inputData,
       "TimeStamp": date.getTime(), 
-      "Dia": formattedDate, 
+      "Dia": formattedDate,
+      "Hora": date.getHours(),
+      "Minutos": date.getMinutes(),
+      "Segundos": date.getSeconds()
     }
 
     return services.postScheduleItem({ data })
-      .then(console.log)
       .finally(() => setIsDisabled(false))
   }
+
   return (
       <SafeAreaProvider>
         <Header />
-        <View style={{ marginTop: 24, marginBottom: 24, paddingHorizontal: 24 }}>
+        <View style={{ marginTop: 24, marginBottom: 92, paddingHorizontal: 24 }}>
+          <Text style={{marginBottom: 4}}>Pacientes</Text>
           <DropDownPicker
             open={open}
             value={value}
@@ -83,13 +103,34 @@ const SearchPatient = () => {
             setOpen={setOpen}
             setValue={setValue}
             setItems={setItems}
-            searchable={true}
-            placeholder="Selecione"
             style={{marginBottom: 'auto'}}
           />
         </View>
+
+          <View style={{ paddingHorizontal: 24 }}>
+            <Text>Sala</Text>
+            <TextInput
+              style={defaultInputStyle}
+              onChangeText={(value) => setInputData({
+                ...inputData,
+                'Sala': value
+              })}
+              placeholder="Sala"
+              value={inputData.Sala}
+            />
+            <Text>Observação</Text>
+            <TextInput
+              style={defaultInputStyle}
+              onChangeText={(value) => setInputData({
+                ...inputData,
+                'Observacoes': value
+              })}
+              placeholder="Observações"
+              value={inputData.Observacoes}
+            />
+          </View>
         
-        <View style={{ marginTop: 240, paddingHorizontal: 24 }}>
+        <View style={{ marginTop: 12, paddingHorizontal: 24 }}>
           <View style={{ backgroundColor: colors.green, borderRadius: 8, paddingVertical: 12 }}>
             <Button
               disabled={isDisabled}

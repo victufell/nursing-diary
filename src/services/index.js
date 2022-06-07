@@ -11,7 +11,10 @@ const services = {
   },
   postScheduleItem: ({ data }) => {
     return axios.post(`${baseAPI}/Agenda/poxRSSHRqcdkfVYLConkCGX184G2.json`, data)
-  }
+  },
+  // deleteScheduleItem: () => {
+  //   return axios.delete(`${baseAPI}/Table/poxRSSHRqcdkfVYLConkCGX184G2.json`)
+  // },
 
 }
 
