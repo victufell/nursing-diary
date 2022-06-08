@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, Button, StyleSheet, View, SafeAreaView , Image, TouchableOpacity } from 'react-native';
+import { Text, Button, StyleSheet, View, SafeAreaView , Image, TouchableOpacity, Alert } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -31,7 +31,7 @@ export default function Login(){
     const onLogin = async () => {
       try {
         const CLIENT_ID = '403978519638-3gluoqck7lg834j4drns8vuapvg445l5.apps.googleusercontent.com'
-        const REDIRECT_URI =  'https://auth.expo.io/@victorfell/nursing-diary'
+        const REDIRECT_URI =  'https://auth.expo.io/@brenolc/nursing-diary'
   
         const RESPONSE_TYPE = `token`
         const SCOPE = encodeURI(`openid email profile`)
@@ -50,27 +50,31 @@ export default function Login(){
             params.access_token,
           )
           const { user } = await signInWithCredential(auth, credential)
-          if (user.apiKey && user.displayName) {
             setIsLogged(true)
             setUser(user) 
             setRefreshing(true);
-          } else {
-            setIsLogged(false)
-            setUser(false) 
-            setRefreshing(false);
-          }
-
+            console.log('check')
         }
       } catch (error) {
         console.log('error:' + error)
+        createTwoButtonAlert()
       }
     }
 
     function logout() {
-      isLogged(false)
+      setIsLogged(false)
       setUser({})
       setRefreshing(true);
     }
+
+    const createTwoButtonAlert = () =>
+    Alert.alert(
+      "Não foi possivel acessar sua conta",
+      "Por favor, verifique suas credenciais e tente novamente",
+      [
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]
+    );
   
     function navegaHome(){
       navigation.navigate('Home')
